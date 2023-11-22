@@ -15,3 +15,36 @@ function targetClientReady() {
     //Adobe Target SDK has now downloaded the JSON artifact locally, which contains the activity details.
     //We will see how to use the artifact here very soon.
 }
+
+//... Code removed for brevity
+​
+let featureFlags = {};
+​
+function targetClientReady() {
+   tClient.getAttributes(["ondevice-featureflag"]).then(function(response) {
+      const featureFlags = response.asObject("ondevice-featureflag");
+      if(featureFlags.enabled && featureFlags.flag !== "expA") { //Assuming "expA" is control
+         console.log("Render alternate experience" + featureFlags.flag);
+      }
+      else {
+         console.log("Render default experience");
+      }
+   });
+}
+
+//When a conversion happens
+TargetClient.sendNotifications({
+    targetCookie,
+    "request" : {
+       "notifications" : [
+       {
+          type: "display",
+          timestamp : Date.now(),
+          id: "conversion",
+          mbox : {
+             name : "pageViewed"
+          },
+       }
+       ]
+    }
+ })
