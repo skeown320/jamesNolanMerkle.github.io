@@ -17,9 +17,7 @@ function targetClientReady() {
 }
 
 //... Code removed for brevity
-​
 let featureFlags = {};
-​
 function targetClientReady() {
    tClient.getAttributes(["ondevice-featureflag"]).then(function(response) {
       const featureFlags = response.asObject("ondevice-featureflag");
